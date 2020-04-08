@@ -21,3 +21,5 @@ void sock_set_wild(const struct sockaddr *addr,socklen_t addrlen);
 ssize_t readn(int fd,void *ptr,size_t len);
 ssize_t writen(int fd,const void *buff,size_t len);
 ssize_t readline(int fd,void *buff,size_t len);
+
+int sockfd_to_family(int fd);
