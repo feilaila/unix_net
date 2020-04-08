@@ -1,4 +1,4 @@
-#include<common.h>
+#include "common.h"
 
 char * sock_ntop(const struct sockaddr *sa,socklen_t *len){
     char portstr[8];
@@ -8,9 +8,9 @@ char * sock_ntop(const struct sockaddr *sa,socklen_t *len){
     case AF_INET:
         {
             struct sockaddr_in *sin =(struct sockaddr_in *)sa;
-            if(inet_ntop(AF_INET,&sin->sin_addr,str,sizeof(str)==NULL)){return NULL;}
-            if(ntohs(&sin->sin_port)!=0){
-                snprintf(portstr,sizeof(portstr),":%d",ntohs(&sin->sin_port));
+            if(inet_ntop(AF_INET,&sin->sin_addr,str,sizeof(str)) == NULL){return NULL;}
+            if(ntohs(sin->sin_port)!=0){
+                snprintf(portstr,sizeof(portstr),":%d",ntohs(sin->sin_port));
                 strcat(str,portstr);
             }
             return str;
@@ -20,6 +20,7 @@ char * sock_ntop(const struct sockaddr *sa,socklen_t *len){
     default:
         break;
     }
+    return NULL;
 }
 
 ssize_t readn(int fd,void *buff,size_t len){
@@ -52,7 +53,7 @@ ssize_t readn(int fd,void *buff,size_t len){
 ssize_t writen(int fd,const void *buff,size_t len){
     ssize_t nleft;
     ssize_t nwrite;
-    char *ptr;
+    const char *ptr;
     ptr = buff;
     nleft = len;
     while (nleft>0)
@@ -86,7 +87,7 @@ ssize_t readline(int fd,void *buff,size_t len){
             return -1;
         }
     }
-    
+    return -1;
 }
 
 static int readcnt;
@@ -137,6 +138,7 @@ ssize_t my_readline(int fd,void *buff,size_t len){
             return -1;
         }
     }
+    return -1;
 }
 ssize_t my_readbuf(void **ptrptr){
     if(readcnt){

@@ -3,8 +3,10 @@
 #include <netinet/in.h>
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 #include <unistd.h>
 #include <errno.h>
+#include <arpa/inet.h>
 char *sock_ntop(const struct sockaddr *sockaddr,socklen_t *addrlen);
 
 int sock_bind_wild(int sockfd,int family);
