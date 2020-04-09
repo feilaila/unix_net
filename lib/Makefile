@@ -10,5 +10,7 @@ temp:  ${TEMPOBJS}
 
 test:   common.o test.o 
 		${CC} ${CFLAGS} -o $@ test.o common.o
+serv:	common.o helloserver.o 
+		${CC} ${CFLAGS} -o $@ common.o helloserver.o 
 clean:
 		rm -f ${PROGS} ${CLEANFILES}

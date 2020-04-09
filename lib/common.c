@@ -148,11 +148,11 @@ ssize_t my_readbuf(void **ptrptr){
 }
 
 int sockfd_to_family(int fd){
-    struct sockaddr_storage *ss;
+    struct sockaddr_storage ss;
     socklen_t len;
     len = sizeof(ss);
-    if(getsockname(fd,(struct sockaddr *)ss,&len) >= 0){
-        return ss->ss_family;
+    if(getsockname(fd,(struct sockaddr *)&ss,&len) >= 0){
+        return ss.ss_family;
     } 
     return -1;
 }
