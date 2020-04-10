@@ -1,5 +1,7 @@
 #include "common.h"
 #include "helloserver.h"
+#include <stdlib.h>
+pid_t Fork();
 int main(int argc, char const *argv[])
 {
     int listenfd,connfd;
@@ -13,12 +15,13 @@ int main(int argc, char const *argv[])
     while (1)
     {
         connfd = accept(listenfd,NULL,NULL);
-        if(fork()==0){
+        if(Fork()==0){
             close(listenfd);
 
             str_echo(connfd);
 
             close(connfd);
+            exit(0);
         }
         close(connfd);
     }
@@ -29,7 +32,17 @@ int main(int argc, char const *argv[])
 void str_echo(int fd){
      int n;
      char buff[1024];
-     while((n=readn(fd,buff,sizeof(buff)))>0){
-         writen(fd,buff,n);
+     while((n=read(fd,buff,1024)) >0){
+         printf(buff);
+         write(fd,buff,n);
      }
+}
+pid_t Fork(){
+    pid_t pid;
+    if((pid=fork())==-1){
+          printf(strerror(errno));
+          printf("fork err:%d",errno);
+          return -1;
+    }
+    return pid;
 }
